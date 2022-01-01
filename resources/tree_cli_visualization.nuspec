@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>tree_cli_visualization</id>
+    <version>1.0.0</version>
+    <title>tree_cli_visualization</title>
+    <authors>Donghua Liu</authors>
+    <owners>Donghua Liu</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>http://github.com/liudonghua123/tree_cli_visualization</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/liudonghua123/tree_cli_visualization/master/resources/icon.png</iconUrl>
+    <description>tree_cli_visualization is a simple flutter app.</description>
+    <copyright>Copyright 2021, all rights reserved</copyright>
+    <tags>flutter windows</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5" />
+    </dependencies>
+  </metadata>
+</package>
