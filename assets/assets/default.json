@@ -1,0 +1,32 @@
+[
+  {"type":"directory","name": ".","contents":[
+    {"type":"file","name":"AUTHORS","size":1314},
+    {"type":"file","name":"BUILD.gn","size":6031},
+    {"type":"file","name":"CHANGELOG.md","size":245149},
+    {"type":"file","name":"CONTRIBUTING.md","size":6488},
+    {"type":"file","name":"DEPS","size":31200},
+    {"type":"file","name":"LICENSE","size":1502},
+    {"type":"file","name":"PATENT_GRANT","size":1300},
+    {"type":"file","name":"PRESUBMIT.py","size":13781},
+    {"type":"file","name":"README.dart-sdk","size":1305},
+    {"type":"file","name":"README.md","size":2597},
+    {"type":"file","name":"SECURITY.md","size":156},
+    {"type":"file","name":"WATCHLISTS","size":2525},
+    {"type":"directory","name":"benchmarks","size":4096,"contents":[
+      {"type":"directory","name":"BigIntParsePrint","size":4096,"contents":[
+        {"type":"directory","name":"dart","size":4096,"contents":[
+          {"type":"file","name":"BigIntParsePrint.dart","size":10377},
+          {"type":"file","name":"native_version.dart","size":658},
+          {"type":"file","name":"native_version_dummy.dart","size":1284},
+          {"type":"file","name":"native_version_javascript.dart","size":3307}
+        ]},
+        {"type":"directory","name":"dart2","size":4096,"contents":[
+          {"type":"file","name":"BigIntParsePrint.dart","size":10391},
+          {"type":"file","name":"native_version.dart","size":672},
+          {"type":"file","name":"native_version_dummy.dart","size":1298},
+          {"type":"file","name":"native_version_javascript.dart","size":3321}
+        ]}
+      ]}
+    ]}
+  ]}
+]
