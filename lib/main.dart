@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   var logger = Logger();
   late DropzoneViewController dropzoneViewController;
 
-  void initJsonData(String fileData) async {
+  void _initJsonData(String fileData) async {
     setState(() {
       _isLoading = true;
     });
@@ -59,6 +59,32 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _handlePickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      withData: true,
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+    );
+    if (result != null) {
+      var fileBytes = result.files.first.bytes!;
+      toast("loading data from file: ${result.files.first.name}");
+      _initJsonData(const Utf8Decoder().convert(fileBytes));
+      // User canceled the picker
+      showSimpleNotification(
+        const Text("Parse tree cli json file successfully!"),
+        background: Colors.green,
+        position: NotificationPosition.bottom,
+      );
+    } else {
+      // User canceled the picker
+      showSimpleNotification(
+        const Text("You do not select any file!"),
+        background: Colors.red,
+        position: NotificationPosition.bottom,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var content = _isLoading
@@ -70,114 +96,87 @@ class _HomePageState extends State<HomePage> {
     var header = DottedBorder(
       color: Colors.blue,
       strokeWidth: 1,
-      child: SizedBox(
-        height: 200,
-        child: Stack(
-          children: [
-            DropTarget(
-              onDragDone: (details) async {
-                var file = details.files.first;
-                showSimpleNotification(
-                  Text("loading data from drag and drop file: ${file.name}"),
-                  background: Colors.red,
-                  position: NotificationPosition.bottom,
-                );
-                setState(() {
-                  _isLoading = true;
-                });
-                if (!file.name.endsWith(".json")) {
+      child: InkWell(
+        onTap: _handlePickFile,
+        child: SizedBox(
+          height: 200,
+          child: Stack(
+            children: [
+              DropTarget(
+                onDragDone: (details) async {
+                  var file = details.files.first;
                   showSimpleNotification(
-                    const Text("only support json file"),
+                    Text("loading data from drag and drop file: ${file.name}"),
                     background: Colors.red,
                     position: NotificationPosition.bottom,
                   );
                   setState(() {
-                    _isLoading = false;
+                    _isLoading = true;
                   });
-                  return;
-                }
-                initJsonData(await file.readAsString());
-              },
-              child: SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Text(
-                        'Drop any tree cli json file here.',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                  if (!file.name.endsWith(".json")) {
+                    showSimpleNotification(
+                      const Text("only support json file"),
+                      background: Colors.red,
+                      position: NotificationPosition.bottom,
+                    );
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    return;
+                  }
+                  _initJsonData(await file.readAsString());
+                },
+                child: SizedBox(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Text(
+                          'Drag and Drop any tree cli json file here.',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: OutlinedButton(
-                        child: const Text(
-                          'Select a tree cli json file',
+                      const Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Text(
+                          'Or click to select this type of file.',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
-                        onPressed: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            withData: true,
-                            type: FileType.custom,
-                            allowedExtensions: ['json'],
-                          );
-                          if (result != null) {
-                            var fileBytes = result.files.first.bytes!;
-                            toast(
-                                "loading data from file: ${result.files.first.name}");
-                            initJsonData(
-                                const Utf8Decoder().convert(fileBytes));
-                            // User canceled the picker
-                            showSimpleNotification(
-                              const Text(
-                                  "Parse tree cli json file successfully!"),
-                              background: Colors.green,
-                              position: NotificationPosition.bottom,
-                            );
-                          } else {
-                            // User canceled the picker
-                            showSimpleNotification(
-                              const Text("You do not select any file!"),
-                              background: Colors.red,
-                              position: NotificationPosition.bottom,
-                            );
-                          }
-                        },
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: OutlinedButton(
-                        child: const Text(
-                          'Reset',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontStyle: FontStyle.italic,
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: OutlinedButton(
+                          child: const Text(
+                            'Reset',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                          onPressed: () async {
+                            setState(() {
+                              _documents = [];
+                              _isLoading = false;
+                            });
+                          },
                         ),
-                        onPressed: () async {
-                          setState(() {
-                            _documents = [];
-                            _isLoading = false;
-                          });
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
