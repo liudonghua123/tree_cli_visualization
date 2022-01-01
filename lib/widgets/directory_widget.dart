@@ -5,6 +5,7 @@ import '../utils/utils.dart';
 class DirectoryWidget extends StatelessWidget {
   final String directoryName;
   final DateTime lastModified;
+  final int size;
   final int level;
   final VoidCallback? onPressedNext;
 
@@ -12,6 +13,7 @@ class DirectoryWidget extends StatelessWidget {
     Key? key,
     required this.directoryName,
     required this.lastModified,
+    this.size = 0,
     this.level = 1,
     this.onPressedNext,
   }) : super(key: key);
@@ -30,15 +32,19 @@ class DirectoryWidget extends StatelessWidget {
       Utils.getFormattedDateTime(dateTime: lastModified),
     );
 
+    Widget fileSizeWidget = Text(
+      Utils.getFormattedFileSize(size: size),
+    );
+
     return Card(
       color: Colors.lightBlueAccent,
       margin: EdgeInsets.only(left: level * 4.0, top: 4.0, bottom: 4.0),
       child: ListTile(
         leading: folderIcon,
         title: titleWidget,
-        subtitle: lastModifiedWidget,
+        subtitle: fileSizeWidget,
         trailing: expandButton,
-        onTap: (() => print(directoryName)),
+        onTap: () => {},
       ),
     );
   }

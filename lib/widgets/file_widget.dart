@@ -5,20 +5,26 @@ import '../utils/utils.dart';
 class FileWidget extends StatelessWidget {
   final String fileName;
   final DateTime lastModified;
+  final int size;
   final int level;
 
-  const FileWidget(
-      {Key? key,
-      required this.fileName,
-      required this.lastModified,
-      this.level = 1})
-      : super(key: key);
+  const FileWidget({
+    Key? key,
+    required this.fileName,
+    required this.lastModified,
+    this.size = 0,
+    this.level = 1,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Widget fileNameWidget = Text(fileName);
     Widget lastModifiedWidget = Text(
       Utils.getFormattedDateTime(dateTime: lastModified),
+    );
+
+    Widget fileSizeWidget = Text(
+      Utils.getFormattedFileSize(size: size),
     );
     Icon fileIcon = const Icon(Icons.insert_drive_file);
 
@@ -28,8 +34,8 @@ class FileWidget extends StatelessWidget {
       child: ListTile(
         leading: fileIcon,
         title: fileNameWidget,
-        subtitle: lastModifiedWidget,
-        onTap: (() => print(fileName)),
+        subtitle: fileSizeWidget,
+        onTap: () => {},
       ),
     );
   }
